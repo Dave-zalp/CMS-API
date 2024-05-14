@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\HttpResponse;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Auth\LoginRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
             ],'User Logged In');
 
         }
-        return $this->error('User Not Found',404);
+        return $this->error('User Not Found',Response::HTTP_NOT_FOUND);
 
     }
 
@@ -44,10 +44,10 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+        $request->user()->currentAccessToken()->delete();
 
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        return $this->success('',[
+            'message' => 'User Logged Out'
+        ],Response::HTTP_OK);
     }
 }
