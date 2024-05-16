@@ -19,7 +19,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 
 Route::get('/index', [UserController::class, 'index'])->name('index');
 
-Route::apiResource('categpries', CategoryController::class);
+Route::apiResource('categories', CategoryController::class);
 
 });
 
