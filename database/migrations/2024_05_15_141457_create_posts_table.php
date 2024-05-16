@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->boolean('published')->default(false);
-            $table->foreignUuid('categories_id')->references('id')->on('Categories')->onDelete('cascade');
+            $table->foreign('categories_id')->references('id')->on('Categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
